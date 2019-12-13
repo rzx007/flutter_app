@@ -1,32 +1,19 @@
 import 'package:flutter/material.dart';
+import 'dart:convert';
 import 'package:flutter_app/componets/Items.dart';
-import 'package:english_words/english_words.dart';
-import 'package:flutter_app/mock/item.dart';
+// import 'package:english_words/english_words.dart';
 
 class Article {
   String title;
   String content;
   String url;
-  Article({this.title, this.content,this.url});
+  Article({this.title, this.content, this.url});
 }
 
 // 有状态widget
 class DemoPage extends StatefulWidget {
   final int nums;
-  final List<Article> articles = result.map((item)=>new Article(
-      title: item['title'] ,
-      content: item['content'],
-      url: item['url'],
-    )).toList();
-  
-  // new List.generate(
-  //   10,
-  //   (i) => new Article(
-  //     title: 'Article $i',
-  //     content: 'Article $i: The quick brown fox jumps over the lazy dog.',
-  //   ),
-  // );
-  
+
   DemoPage({Key key, @required this.nums}) : super(key: key);
 
   @override
@@ -34,16 +21,10 @@ class DemoPage extends StatefulWidget {
 }
 
 class _DemoPageState extends State<DemoPage> {
-  int _counter;
-  List articles;
-
-
   @override
   void initState() {
     super.initState();
     //初始化状态
-    _counter = widget.articles.length;
-    articles =  widget.articles;
     print("initState");
   }
 
@@ -66,16 +47,21 @@ class _DemoPageState extends State<DemoPage> {
         ///这个title是一个Widget
         title: new Text("列表"),
       ),
+      body: FutureBuilder(
+          future:
+              DefaultAssetBundle.of(context).loadString('lib/mock/item.json'),
+          builder: (context, snapshot) {
+            var newData = json.decode(snapshot.data.toString());
+            return new ListView.builder(
+              itemBuilder: (BuildContext context, int index) {
+                return new Items(article: newData[index]);
+              },
+              itemCount:newData==null? 0 :newData.length,
+            );
+          }),
 
       ///正式的页面开始
-      ///一个ListView，20个Item
-      body: new ListView.builder(
-        itemBuilder: (context, index) {
-          final wordPair = new WordPair.random();
-          return new Items(article: articles[index]);
-        },
-        itemCount: _counter,
-      ),
+      //一个ListView，20个Item
     );
   }
 }

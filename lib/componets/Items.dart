@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 // import 'dart:math';
-import 'package:flutter_app/views/second.dart';
 import 'package:flutter_app/views/second/detail.dart';
 
 // 组合小组件成item
 class Items extends StatelessWidget {
-  final Article article;
+  final article;
   final Color textColor;
   const Items({Key key, @required this.article, this.textColor: Colors.grey})
       : super(key: key);
@@ -23,8 +22,8 @@ class Items extends StatelessWidget {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) =>
-                            SecondPage(url: article.url, title: article.title),
+                        builder: (context) => SecondPage(
+                            url: article['url'], title: article['title']),
                         fullscreenDialog: false));
                 print(article);
               },
@@ -33,7 +32,7 @@ class Items extends StatelessWidget {
                 children: <Widget>[
                   new Container(
                     child: new Text(
-                      article.content,
+                      article['content'],
                       style: TextStyle(
                         color: textColor,
                         fontSize: 14.0,
