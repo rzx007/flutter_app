@@ -1,7 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
-class TabOne extends StatelessWidget {
+class TabOne extends StatefulWidget {
+  TabOne();
+  @override
+  _TabOneState createState() => new _TabOneState();
+}
+
+class _TabOneState extends State<TabOne> {
   @override
   Widget build(BuildContext context) {
     return Container(

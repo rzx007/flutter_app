@@ -43,6 +43,10 @@ class MyApp extends StatelessWidget {
         return MaterialApp(
           title: 'Flutter Demo',
           theme: ThemeData(
+              iconTheme: IconThemeData(
+                  color: YColors.themeColor[theme.getValue == null
+                      ? themeIndex
+                      : theme.getValue]["colorAccent"]),
               primaryColor: YColors.themeColor[theme.getValue == null
                   ? themeIndex
                   : theme.getValue]["primaryColor"]),
@@ -65,25 +69,17 @@ class _BottomNavState extends State<BottomNav> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      bottomNavigationBar: Provide<ThemeProvide>(
-        builder: (context, child, theme) {
-          return BottomNavigationBar(
-            // 底部导航
-            items: <BottomNavigationBarItem>[
-              BottomNavigationBarItem(
-                  icon: Icon(Icons.home), title: Text('首页')),
-              BottomNavigationBarItem(
-                  icon: Icon(Icons.business), title: Text('Business')),
-              BottomNavigationBarItem(
-                  icon: Icon(Icons.person), title: Text('我的')),
-            ],
-            currentIndex: _selectedIndex,
-            fixedColor: YColors.themeColor[theme.getValue == null
-                ? widget.themeIndex
-                : theme.getValue]["colorAccent"],
-            onTap: _onItemTapped,
-          );
-        },
+      bottomNavigationBar: BottomNavigationBar(
+        // 底部导航
+        items: <BottomNavigationBarItem>[
+          BottomNavigationBarItem(icon: Icon(Icons.home), title: Text('首页')),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.business), title: Text('Business')),
+          BottomNavigationBarItem(icon: Icon(Icons.person), title: Text('我的')),
+        ],
+        currentIndex: _selectedIndex,
+
+        onTap: _onItemTapped,
       ),
       body: views[_selectedIndex],
     );
