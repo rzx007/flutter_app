@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app/views/mine/ThemeSet.dart';
+// import 'package:flutter_app/views/mine/ThemeSet.dart';
 
 class MinePage extends StatelessWidget {
   final List tabs = ["主题", "收藏", "历史"];
@@ -51,7 +51,7 @@ List<Widget> _sliverBuilder(BuildContext context, bool innerBoxIsScrolled) {
 
 // Provide.value<MyProvide>(context).setTheme(1);
 // createItems
-_createMinePageItem(context, String text) {
+Widget _createMinePageItem(context, String text) {
   return new Container(
     margin: EdgeInsets.only(left: 5.0, right: 5.0),
     height: 50.0,
@@ -61,10 +61,10 @@ _createMinePageItem(context, String text) {
       behavior: HitTestBehavior.opaque,
       onTap: () {
         //点击跳转
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => ThemeSetPage(), fullscreenDialog: false));
+        // Navigator.push(
+        //     context,
+        //     MaterialPageRoute(
+        //         builder: (context) => ThemeSetPage(), fullscreenDialog: false));
       },
       child: Container(
           padding: EdgeInsets.all(10.0),
