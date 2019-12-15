@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
-
+// import 'package:sliding_up_panel/sliding_up_panel.dart';
+import 'package:flutter_app/views/index/TabOne.dart';
+import 'package:flutter_app/views/index/TabTow.dart';
+import 'package:flutter_app/views/index/TabThree.dart';
 class Index extends StatefulWidget {
   @override
   _IndexState createState() => _IndexState();
@@ -40,13 +43,9 @@ class _IndexState extends State<Index> with SingleTickerProviderStateMixin {
       ),
       body: TabBarView(
         controller: _tabController,
-        children: tabs.map((e) {
-          //创建3个Tab页
-          return Container(
-            alignment: Alignment.center,
-            child: Text(e, textScaleFactor: 5),
-          );
-        }).toList(),
+        children: <Widget>[
+            TabOne(), TabTow(), TabThree(),
+        ],
       ),
       floatingActionButton: FloatingActionButton(
           //悬浮按钮

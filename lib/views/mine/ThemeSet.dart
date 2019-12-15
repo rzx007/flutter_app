@@ -1,8 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/provide/ThemeClass.dart';
 import 'package:flutter_app/utils/provide.dart';
+import 'package:flutter_app/provide/shared_preferences.dart';
 
-class ThemeSetPage extends StatelessWidget {
+class ThemeSetPage extends StatefulWidget {
+  @override
+  _ThemeSetPageState createState() => _ThemeSetPageState();
+}
+
+class _ThemeSetPageState extends State<ThemeSetPage> {
+  void initState() {
+    super.initState();
+    //初始化状态
+    print("initState");
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -52,6 +64,7 @@ _choiceTheme(context) {
       behavior: HitTestBehavior.opaque,
       onTap: () {
         Provides.getProvide(context).setTheme(i);
+        setInts('ThemeIndex', i);
       },
       child: Container(
           height: 50.0,
@@ -97,9 +110,12 @@ _choiceTheme(context) {
 
 // 主题选中√标识
 Widget _checked(index, context) {
+  var _index = Provides.getProvide(context).getValue == null
+      ? ''
+      : Provides.getProvide(context).getValue;
   Widget content = new Text('');
-  print(index);
-  if (index == Provides.getProvide(context).getValue) {
+  // print(index);
+  if (index == _index) {
     //如果数据不为空，则显示Text
     content = new Icon(
       Icons.check,

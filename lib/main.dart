@@ -7,21 +7,22 @@ import 'package:flutter/services.dart'; //提供SystemUiOverlayStyle
 import 'package:provide/provide.dart';
 import 'package:flutter_app/provide/index.dart';
 import 'package:flutter_app/provide/ThemeClass.dart';
+import 'package:flutter_app/provide/shared_preferences.dart';
 
 import 'views/index.dart';
 import 'views/second.dart';
 import 'views/mine.dart';
 
-void main() {
+void main() async {
   //初始化
   var theme = ThemeProvide();
   var providers = Providers();
   //将theme加到providers中
   providers..provide(Provider.function((context) => theme));
-
+  int themeIndex = await getInts('ThemeIndex');
   runApp(ProviderNode(
     providers: providers,
-    child: MyApp(),
+    child: MyApp(themeIndex),
   ));
   if (Platform.isAndroid) {
     // 以下两行 设置android状态栏为透明的沉浸。写在组件渲染之后，是为了在渲染后进行set赋值，覆盖状态栏，写在渲染之前       MaterialApp组件会覆盖掉这个值。
@@ -33,6 +34,8 @@ void main() {
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
+  final int themeIndex;
+  MyApp(this.themeIndex);
   @override
   Widget build(BuildContext context) {
     return Provide<ThemeProvide>(
@@ -40,8 +43,10 @@ class MyApp extends StatelessWidget {
         return MaterialApp(
           title: 'Flutter Demo',
           theme: ThemeData(
-              primaryColor: YColors.themeColor[theme.getValue]["primaryColor"]),
-          home: BottomNav(),
+              primaryColor: YColors.themeColor[theme.getValue == null
+                  ? themeIndex
+                  : theme.getValue]["primaryColor"]),
+          home: BottomNav(themeIndex: themeIndex),
         );
       },
     );
@@ -49,6 +54,8 @@ class MyApp extends StatelessWidget {
 }
 
 class BottomNav extends StatefulWidget {
+  final int themeIndex;
+  BottomNav({Key key, this.themeIndex}) : super(key: key);
   _BottomNavState createState() => _BottomNavState();
 }
 
@@ -71,7 +78,9 @@ class _BottomNavState extends State<BottomNav> {
                   icon: Icon(Icons.person), title: Text('我的')),
             ],
             currentIndex: _selectedIndex,
-            fixedColor: YColors.themeColor[theme.getValue]["colorAccent"],
+            fixedColor: YColors.themeColor[theme.getValue == null
+                ? widget.themeIndex
+                : theme.getValue]["colorAccent"],
             onTap: _onItemTapped,
           );
         },
@@ -80,8 +89,7 @@ class _BottomNavState extends State<BottomNav> {
     );
   }
 
-  void _onItemTapped(int index) {
-    print(index);
+  void _onItemTapped(int index) async {
     setState(() {
       _selectedIndex = index;
     });
